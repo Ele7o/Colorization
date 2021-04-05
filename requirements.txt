@@ -1,0 +1,8 @@
+torch
+chainer>=1.14,<2.0.0
+scikit-image
+numpy
+matplotlib
+argparse
+Pillow
+IPython

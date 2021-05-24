@@ -13,3 +13,5 @@ venv/
 .env
 .venv
 pip-selfcheck.json
+saved_eccv16.png
+saved_siggraph17.png

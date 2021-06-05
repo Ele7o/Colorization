@@ -1,3 +1,4 @@
+import os
 import argparse
 import matplotlib.pyplot as plt
 import PySimpleGUI as sg
@@ -19,15 +20,27 @@ layout = [[sg.Text("Đường dẫn :")],
           [sg.Button('Ok'), sg.Button('Thoát')]]
 
 # Create the window
-window = sg.Window('Window Title', layout)
+window = sg.Window('Colorization', layout)
 
 # Display and interact with the Window using an Event Loop
 while True:
     event, values = window.read()
-
+    
+    
     if event == sg.WINDOW_CLOSED or event == 'Thoát':
         break
     else:
+        # lấy đường dẫn
+        filedir = values['-INPUT-']
+        # lấy tên file từ đường dẫn
+        filename = os.path.basename(filedir)
+        # cắt phần tên loại dữ liệu 
+        filetxt = os.path.splitext(filename)[0]
+        # chuyển thành string
+        ten = str(filetxt)
+        print (filetxt)
+        #Thông báo xuất ra 
+        window['-OUTPUT-'].update('Chạy ' + filename + "!")
         opt.img_path =  values['-INPUT-']
         # See if user wants to quit or window was closed
         # load colorizers
@@ -49,9 +62,10 @@ while True:
         img_bw = postprocess_tens(tens_l_orig, torch.cat((0 * tens_l_orig, 0 * tens_l_orig), dim=1))
         out_img_eccv16 = postprocess_tens(tens_l_orig, colorizer_eccv16(tens_l_rs).cpu())
         out_img_siggraph17 = postprocess_tens(tens_l_orig, colorizer_siggraph17(tens_l_rs).cpu())
-
-        plt.imsave('%s_eccv16.png' % opt.save_prefix, out_img_eccv16)
-        plt.imsave('%s_siggraph17.png' % opt.save_prefix, out_img_siggraph17)
+        
+        # Lưu file vào img_out với tên được ghép từ tên file với loại thuật toán được sử dụng
+        plt.imsave('imgs_out/%s_eccv16.png' % ten, out_img_eccv16)
+        plt.imsave('imgs_out/%s_siggraph17.png' % ten, out_img_siggraph17)
 
         plt.figure(figsize=(12, 8))
         plt.subplot(2, 2, 1)
@@ -74,5 +88,5 @@ while True:
         plt.title('Output (SIGGRAPH 17)')
         plt.axis('off')
         plt.show()
-        window['-OUTPUT-'].update('Loaded ' + values['-INPUT-'] + "!")
+        
 window.close()

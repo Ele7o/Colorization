@@ -1,6 +1,7 @@
 import argparse
 import matplotlib.pyplot as plt
 import PySimpleGUI as sg
+sg.theme("DarkTeal2")
 from colorizers import *
 
 parser = argparse.ArgumentParser()
@@ -12,10 +13,10 @@ opt = parser.parse_args()
 
 
 # Define the window's contents
-layout = [[sg.Text("Image's name?")],
-          [sg.Input(key='-INPUT-')],
+layout = [[sg.Text("Đường dẫn :")],
+          [sg.Input(key='-INPUT-'), sg.FileBrowse('Tìm',key='-INPUT')],
           [sg.Text(size=(40, 1), key='-OUTPUT-')],
-          [sg.Button('Ok'), sg.Button('Quit')]]
+          [sg.Button('Ok'), sg.Button('Thoát')]]
 
 # Create the window
 window = sg.Window('Window Title', layout)
@@ -24,10 +25,10 @@ window = sg.Window('Window Title', layout)
 while True:
     event, values = window.read()
 
-    if event == sg.WINDOW_CLOSED or event == 'Quit':
+    if event == sg.WINDOW_CLOSED or event == 'Thoát':
         break
     else:
-        opt.img_path = 'imgs/' + values['-INPUT-']
+        opt.img_path =  values['-INPUT-']
         # See if user wants to quit or window was closed
         # load colorizers
         colorizer_eccv16 = eccv16(pretrained=True).eval()

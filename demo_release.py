@@ -1,9 +1,14 @@
+import io
 import os
 import argparse
 import matplotlib.pyplot as plt
 import PySimpleGUI as sg
+
 sg.theme("DarkTeal2")
 from colorizers import *
+from PIL import Image
+file_types = [("JPEG (*.jpg)", "*.jpg"),
+              ("All files (*.*)", "*.*")]
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--img_path', type=str, default='imgs/ansel_adams3.jpg')
@@ -14,8 +19,12 @@ opt = parser.parse_args()
 
 
 # Define the window's contents
-layout = [[sg.Text("Đường dẫn :")],
+layout = [
+        #   [sg.Text("Sử dụng GPU : "),sg.Button('ON',key = 'ON'), sg.Button('OFF',key = 'OFF')],
+          [sg.Image(key="-IMAGE-")],
+          [sg.Text("Đường dẫn :")],  
           [sg.Input(key='-INPUT-'), sg.FileBrowse('Tìm',key='-INPUT')],
+          [sg.Button("Load Image")],
           [sg.Text(size=(40, 1), key='-OUTPUT-')],
           [sg.Button('Ok'), sg.Button('Thoát')]]
 
@@ -30,6 +39,15 @@ while True:
     if event == sg.WINDOW_CLOSED or event == 'Thoát':
         break
     else:
+        if event == 'Load Image' :
+            fileimage = values['-INPUT-']
+            if os.path.exists(fileimage):
+                image = Image.open(values["-INPUT-"])
+                image.thumbnail((400,400))
+                bio = io.BytesIO()
+                image.save(bio, format="PNG")
+                window["-IMAGE-"].update(data = bio.getvalue())
+                continue
         # lấy đường dẫn
         filedir = values['-INPUT-']
         # lấy tên file từ đường dẫn
@@ -49,7 +67,7 @@ while True:
         if opt.use_gpu:
             colorizer_eccv16.cuda()
             colorizer_siggraph17.cuda()
-
+        
         # default size to process images is 256x256
         # grab L channel in both original ("orig") and resized ("rs") resolutions
         img = load_img(opt.img_path)
@@ -59,8 +77,11 @@ while True:
 
         # colorizer outputs 256x256 ab map
         # resize and concatenate to original L channel
+        # Ảnh đen trắng
         img_bw = postprocess_tens(tens_l_orig, torch.cat((0 * tens_l_orig, 0 * tens_l_orig), dim=1))
+        # Ảnh dùng hệ eccv16
         out_img_eccv16 = postprocess_tens(tens_l_orig, colorizer_eccv16(tens_l_rs).cpu())
+        # Ảnh dùng hệ siggraph17
         out_img_siggraph17 = postprocess_tens(tens_l_orig, colorizer_siggraph17(tens_l_rs).cpu())
         
         # Lưu file vào img_out với tên được ghép từ tên file với loại thuật toán được sử dụng
@@ -90,3 +111,5 @@ while True:
         plt.show()
         
 window.close()
+if __name__ == "__main__":
+    main()

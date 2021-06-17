@@ -1,26 +1,20 @@
-.
-### Citation ###
+# Welcome to Colorization!
+Hello! This is a demo of **Colorful Image Colorization** , base on MrRichzhang [colorization](https://github.com/richzhang)
 
-If you find these models useful for your resesarch, please cite with these bibtexs.
+
+
+## Clone **the repository**
 
 ```
-@inproceedings{zhang2016colorful,
-  title={Colorful Image Colorization},
-  author={Zhang, Richard and Isola, Phillip and Efros, Alexei A},
-  booktitle={ECCV},
-  year={2016}
-}
-
-@article{zhang2017real,
-  title={Real-Time User-Guided Image Colorization with Learned Deep Priors},
-  author={Zhang, Richard and Zhu, Jun-Yan and Isola, Phillip and Geng, Xinyang and Lin, Angela S and Yu, Tianhe and Efros, Alexei A},
-  journal={ACM Transactions on Graphics (TOG)},
-  volume={9},
-  number={4},
-  year={2017},
-  publisher={ACM}
-}
+	git clone https://github.com/Ele7o/Colorization.git
+	cd Colorization
 ```
 
-### Misc ###
-Contact Richard Zhang at rich.zhang at eecs.berkeley.edu for any questions or comments.
+##  Installation Requirements
+```
+	pip install -r requirements.txt
+```
+
+## Run
+
+```

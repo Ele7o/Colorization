@@ -111,5 +111,3 @@ while True:
         plt.show()
         
 window.close()
-if __name__ == "__main__":
-    main()

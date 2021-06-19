@@ -16,5 +16,6 @@ Hello! This is a demo of **Colorful Image Colorization** , base on MrRichzhang [
 ```
 
 ## Run
-
+```
+	python demo_release.py
 ```

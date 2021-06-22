@@ -43,7 +43,7 @@ while True:
     if event == sg.WINDOW_CLOSED or event == 'Thoát':
         break
     elif values['-INPUT-']== '':
-        if event == 'JPG' or event == 'PNG' or event=='Load Image':
+        if event == 'JPG' or event == 'PNG' or event=='Load Image' or event =='Ok' :
             window['-OUTPUT-'].update("VUI LONG CHON ANH")
         continue
     else:
@@ -67,9 +67,6 @@ while True:
                 window['-PROTO-'].update('PNG')
                 fileprox = 'PNG'
                 continue
-            
-                
-        
             
         filepro = fileprox
         # lấy đường dẫn
